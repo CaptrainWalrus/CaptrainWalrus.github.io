@@ -246,8 +246,8 @@ if __name__ == "__main__":
         # Create a basic index.html as fallback
         output_dir = Path(".")
         
-        # If error, run the simple generator instead
-        print("⚠️ Running simple generator as fallback...")
+        # If error, run the structured generator instead
+        print("⚠️ Running structured generator as fallback...")
         import subprocess
         import sys
-        subprocess.run([sys.executable, "src/processing/simple_generate.py"])
+        subprocess.run([sys.executable, "src/processing/structured_generate.py"])
