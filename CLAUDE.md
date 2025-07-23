@@ -40,6 +40,8 @@ Git Repo (Session Logs) → LangChain Processor → Content Generation → Websi
 - **File Organization**: Keep project files organized and focused
 - **Documentation**: Maintain clear documentation for no-code approach
 - **Session Tracking**: Project-specific memory system for continuity
+- **Git Commit Standards**: NO Claude Code advertising or co-authored-by lines in commits
+- **Clean Commits**: Simple, descriptive commit messages without promotional content
 
 ## Current Development Status
 - ✅ Project structure initialized

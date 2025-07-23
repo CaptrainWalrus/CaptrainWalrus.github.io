@@ -29,21 +29,13 @@ jobs:
         with:
           python-version: '3.11'
           
-      - name: Install dependencies
-        run: |
-          pip install -r src/processing/requirements.txt
-          
-      - name: Process new session log entries
+      - name: Generate website with OpenAI
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          echo "🔄 Processing new session log entries..."
-          python src/processing/incremental_processor.py || echo "⚠️ OpenAI processing failed, using basic extraction"
-          
-      - name: Generate website HTML
-        run: |
-          echo "🏗️ Generating website..."
-          python src/processing/generate_html.py || python src/processing/structured_generate.py
+          echo "🔄 Letting OpenAI generate the complete website..."
+          echo "🤖 OpenAI handles all organization, categorization, and HTML generation"
+          python src/processing/openai_website_generator.py
           
       - name: Setup Pages
         uses: actions/configure-pages@v4
