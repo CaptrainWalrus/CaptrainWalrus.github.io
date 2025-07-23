@@ -246,11 +246,8 @@ if __name__ == "__main__":
         # Create a basic index.html as fallback
         output_dir = Path(".")
         
-        fallback_html = """<!DOCTYPE html>
-<html><head><title>Development Journey</title></head>
-<body><h1>Development Journey</h1><p>Website is being set up...</p></body></html>"""
-        
-        with open(output_dir / "index.html", 'w') as f:
-            f.write(fallback_html)
-        
-        print("⚠️ Created fallback HTML")
+        # If error, run the simple generator instead
+        print("⚠️ Running simple generator as fallback...")
+        import subprocess
+        import sys
+        subprocess.run([sys.executable, "src/processing/simple_generate.py"])
