@@ -111,18 +111,31 @@ class IncrementalProcessor:
             self.client = OpenAI(api_key=api_key)
         
         try:
-            prompt = f"""Analyze this development log entry and create a concise summary:
+            prompt = f"""Analyze this development log entry and create a conversational summary:
 
 Timestamp: {entry['timestamp']}
 Content: {entry['content']}
 
 Create a JSON response with:
 1. "type": "add" (new feature), "remove" (cleanup/deletion), or "idea" (concept/planning)
-2. "description": One clear sentence describing what was done (max 100 chars)
+2. "description": A conversational summary as if telling a colleague what you did (max 100 chars)
 3. "technical_detail": Key technical aspect if relevant (optional)
 4. "impact": Why this matters for the project (optional)
 
-Focus on the core action/change, not metadata. Be concise."""
+Write the description as if you're the developer talking to a friend about what you worked on today.
+Don't use "User" - this is YOUR development journey. Keep it natural and human.
+
+Good examples:
+- "Finally got the PnL values showing correctly after that marathon debug session"
+- "Built a split storage system that actually makes sense now"
+- "Trades were getting rejected left and right - had to dig deep into the risk logic"
+- "That storageClient error had me stumped for hours"
+- "Realized the system needs to detect when we should trade the opposite direction"
+
+Avoid:
+- Corporate speak or formal documentation language
+- Third person references
+- Overly technical jargon without context"""
 
             response = self.client.chat.completions.create(
                 model="gpt-3.5-turbo",
@@ -154,13 +167,17 @@ Focus on the core action/change, not metadata. Be concise."""
         elif any(word in content_lower for word in ['removed', 'deleted', 'cleaned']):
             entry_type = 'remove'
         
-        # Extract description (first meaningful sentence)
+        # Extract description - just get the core message
         sentences = entry['content'].split('.')
         description = sentences[0].strip() if sentences else entry['content'][:100]
         
+        # Simply truncate to length
+        if len(description) > 95:
+            description = description[:92] + '...'
+        
         return {
             'type': entry_type,
-            'description': description[:100],
+            'description': description,
             'technical_detail': None,
             'impact': None
         }
