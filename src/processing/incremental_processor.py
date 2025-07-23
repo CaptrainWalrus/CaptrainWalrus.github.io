@@ -7,6 +7,7 @@ Caches processed content to avoid regenerating existing entries
 import os
 import json
 import hashlib
+import time
 from datetime import datetime
 from pathlib import Path
 try:
@@ -110,8 +111,17 @@ class IncrementalProcessor:
                 return self.basic_extraction(entry)
             self.client = OpenAI(api_key=api_key)
         
-        try:
-            prompt = f"""Analyze this development log entry and create a conversational summary:
+        if not OPENAI_AVAILABLE or not self.client:
+            # Skip processing without OpenAI
+            return None
+        
+        # Retry logic for connection errors
+        max_retries = 3
+        retry_delay = 1
+        
+        for attempt in range(max_retries):
+            try:
+                prompt = f"""Analyze this development log entry and create a conversational summary:
 
 Timestamp: {entry['timestamp']}
 Content: {entry['content']}
@@ -137,24 +147,45 @@ Avoid:
 - Third person references
 - Overly technical jargon without context"""
 
-            response = self.client.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=[{"role": "user", "content": prompt}],
-                temperature=0.3,
-                max_tokens=200
-            )
-            
-            result = json.loads(response.choices[0].message.content)
-            return {
-                'type': result.get('type', 'idea'),
-                'description': result.get('description', entry['content'][:100]),
-                'technical_detail': result.get('technical_detail'),
-                'impact': result.get('impact')
-            }
-            
-        except Exception as e:
-            print(f"⚠️ OpenAI processing failed: {e}")
-            return self.basic_extraction(entry)
+                response = self.client.chat.completions.create(
+                    model="gpt-3.5-turbo",
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0.3,
+                    max_tokens=200,
+                    timeout=30  # Add 30 second timeout
+                )
+                
+                result = json.loads(response.choices[0].message.content)
+                return {
+                    'type': result.get('type', 'idea'),
+                    'description': result.get('description', entry['content'][:100]),
+                    'technical_detail': result.get('technical_detail'),
+                    'impact': result.get('impact')
+                }
+                
+            except json.JSONDecodeError:
+                # If we can't parse JSON, return None to skip
+                print(f"⚠️ Failed to parse OpenAI response as JSON")
+                return None
+                
+            except Exception as e:
+                error_type = type(e).__name__
+                if error_type in ['APIConnectionError', 'Timeout', 'ConnectionError']:
+                    if attempt < max_retries - 1:
+                        print(f"⚠️ Connection error (attempt {attempt + 1}/{max_retries}), retrying in {retry_delay}s...")
+                        time.sleep(retry_delay)
+                        retry_delay *= 2  # Exponential backoff
+                        continue
+                    else:
+                        print(f"⚠️ Connection failed after {max_retries} attempts")
+                        return None
+                else:
+                    print(f"⚠️ OpenAI processing failed: {error_type}: {str(e)}")
+                    if hasattr(e, '__dict__'):
+                        print(f"   Details: {e.__dict__}")
+                    return None
+        
+        return None  # If all retries failed
     
     def basic_extraction(self, entry):
         """Fallback extraction without OpenAI"""
@@ -193,17 +224,18 @@ Avoid:
         print(f"🔄 Processing {len(new_entries)} new entries...")
         
         for entry in new_entries:
-            # Process with OpenAI or fallback
+            # Process with OpenAI only
             processed = self.process_with_openai(entry)
             
-            # Add to cache
-            entry_hash = self.get_entry_hash(entry['raw'])
-            self.cache['entries'][entry_hash] = {
-                'timestamp': entry['timestamp'],
-                'project': entry['project'],
-                'processed': processed,
-                'hash': entry_hash
-            }
+            # Only cache if successfully processed
+            if processed:
+                entry_hash = self.get_entry_hash(entry['raw'])
+                self.cache['entries'][entry_hash] = {
+                    'timestamp': entry['timestamp'],
+                    'project': entry['project'],
+                    'processed': processed,
+                    'hash': entry_hash
+                }
         
         # Update last processed time
         self.cache['last_processed'] = datetime.now().isoformat()
