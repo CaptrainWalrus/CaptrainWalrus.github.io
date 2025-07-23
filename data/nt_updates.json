@@ -1,0 +1,23 @@
+[
+  {
+    "type": "feature",
+    "priority": "high",
+    "description": "Implemented adaptive risk strategy for consecutive losses",
+    "technical_detail": "Adaptive risk strategy now handles consecutive losses",
+    "impact": "Improves risk management in trading, reducing potential losses"
+  },
+  {
+    "type": "fix",
+    "priority": "medium",
+    "description": "Fixed SL/TP coming through as 0 in NinjaTrader",
+    "technical_detail": "Corrected issue with SL/TP values in NinjaTrader",
+    "impact": "Ensures accurate SL/TP values for better trading decisions"
+  },
+  {
+    "type": "fix",
+    "priority": "low",
+    "description": "Fixed wrong endpoint being used by CurvesStrategy",
+    "technical_detail": "Corrected endpoint used by CurvesStrategy",
+    "impact": "Ensures accurate data retrieval for CurvesStrategy"
+  }
+]

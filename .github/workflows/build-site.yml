@@ -29,12 +29,12 @@ jobs:
         with:
           python-version: '3.11'
           
-      - name: Generate website directly from session log
+      - name: Generate JSON data files from session log
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          echo "🔄 Generating website directly from session log..."
-          python src/processing/direct_openai_generator.py
+          echo "🔄 Generating JSON data files from session log..."
+          python src/processing/json_data_generator.py
           
       - name: Setup Pages
         uses: actions/configure-pages@v4
