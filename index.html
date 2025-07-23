@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,50 +11,81 @@
         .header {
             position: fixed;
             width: 100%;
-            height: 50px;
+            height: 60px;
             background-color: #161b22;
-            color: #c9d1d9;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 10px;
+            padding: 0 20px;
+            box-sizing: border-box;
         }
         .header img {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            height: 30px;
+            margin-right: 10px;
         }
-        .container {
+        .header h1 {
+            color: #58a6ff;
+            margin: 0;
+        }
+        .content {
             display: flex;
-            margin-top: 70px;
-            justify-content: space-around;
+            margin-top: 80px;
+            padding: 0 20px;
+            box-sizing: border-box;
         }
-        .column {
-            width: 45%;
-            overflow-y: scroll;
-            height: 80vh;
+        .content .column {
+            width: 50%;
+            overflow-y: auto;
+            padding-right: 10px;
+            box-sizing: border-box;
         }
         .entry {
-            border-bottom: 1px solid #30363d;
-            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .entry h2 {
+            color: #58a6ff;
+            margin: 0 0 10px;
+        }
+        .entry p {
+            margin: 0;
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <img src="https://avatars.githubusercontent.com/u/2623736?s=400&u=e7f8d6597d1d222a1f038ed316af1e439c3a57b4&v=4" alt="avatar">
+        <img src="https://avatars.githubusercontent.com/u/2623736?s=400&u=e7f8d6597d1d222a1f038ed316af1e439c3a57b4&v=4" alt="Avatar">
         <h1>I just want to build</h1>
     </div>
-    <div class="container">
-        <div class="column">
-            <h2>NT_OrderManager</h2>
-            <!-- Dev entries for NT_OrderManager go here -->
+    <div class="content">
+        <div class="column" id="NT_OrderManager">
+            <!-- NT_OrderManager entries go here -->
         </div>
-        <div class="column">
-            <h2>FluidJournal</h2>
-            <!-- Dev entries for FluidJournal go here -->
+        <div class="column" id="FluidJournal">
+            <!-- FluidJournal entries go here -->
         </div>
     </div>
+    <script>
+        var NT_OrderManagerEntries = [
+            // Add NT_OrderManager entries here
+        ];
+        var FluidJournalEntries = [
+            // Add FluidJournal entries here
+        ];
+        var NT_OrderManagerColumn = document.getElementById('NT_OrderManager');
+        var FluidJournalColumn = document.getElementById('FluidJournal');
+        NT_OrderManagerEntries.forEach(function(entry) {
+            var entryElement = document.createElement('div');
+            entryElement.className = 'entry';
+            entryElement.innerHTML = '<h2>' + entry.title + '</h2><p>' + entry.description + '</p>';
+            NT_OrderManagerColumn.appendChild(entryElement);
+        });
+        FluidJournalEntries.forEach(function(entry) {
+            var entryElement = document.createElement('div');
+            entryElement.className = 'entry';
+            entryElement.innerHTML = '<h2>' + entry.title + '</h2><p>' + entry.description + '</p>';
+            FluidJournalColumn.appendChild(entryElement);
+        });
+    </script>
 </body>
 </html>
-```
-This is a basic HTML structure for your page. You can add your dev entries inside the respective columns. You may also want to add more CSS to style your entries and differentiate between Plans, Features, Changes, and Fixes.

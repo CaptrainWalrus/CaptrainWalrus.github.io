@@ -107,11 +107,21 @@ ORGANIZE: Plans→Features→Changes→Fixes with color codes.
 DEV ENTRIES:
 {key_content}
 
-Return complete HTML only.'''
+Generate working HTML with actual content from the dev entries. Include ALL development work. Return only clean HTML with no explanations or comments.'''
     
     try:
         print("🔄 Asking OpenAI to generate complete website from session log...")
         html_content = make_openai_request(prompt)
+        
+        # Clean up markdown code blocks and extra commentary
+        if html_content.startswith('```html'):
+            html_content = html_content.replace('```html', '').replace('```', '').strip()
+        
+        # Extract only the HTML content (from <!DOCTYPE to </html>)
+        start_idx = html_content.find('<!DOCTYPE html>')
+        end_idx = html_content.find('</html>') + 7
+        if start_idx != -1 and end_idx != -1:
+            html_content = html_content[start_idx:end_idx]
         
         # Write to index.html
         output_path = Path("index.html")
