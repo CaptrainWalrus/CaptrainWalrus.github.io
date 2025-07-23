@@ -29,14 +29,12 @@ jobs:
         with:
           python-version: '3.11'
           
-      - name: Process entries and generate website
+      - name: Generate website directly from session log
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          echo "🔄 Processing session logs with OpenAI..."
-          python src/processing/incremental_processor_http.py
-          echo "🔄 Organizing website with OpenAI..."
-          python src/processing/simple_openai_organizer.py
+          echo "🔄 Generating website directly from session log..."
+          python src/processing/direct_openai_generator.py
           
       - name: Setup Pages
         uses: actions/configure-pages@v4

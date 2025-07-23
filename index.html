@@ -1,450 +1,61 @@
+```html
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I just want to build | Development Journey</title>
+    <title>I just want to build</title>
     <style>
-        :root {
-            --bg-color: #0d1117;
-            --header-bg: #161b22;
-            --card-bg: #161b22;
-            --text-color: #c9d1d9;
-            --accent-color: #58a6ff;
-            --border-color: #30363d;
-            --nt-color: #f0883e;
-            --fluid-color: #4ecdc4;
-            --success-color: #3fb950;
-            --danger-color: #f85149;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
-            background: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            font-family: Arial, sans-serif;
         }
-        
-        /* Fixed Header */
-        header {
+        .header {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: var(--header-bg);
-            border-bottom: 1px solid var(--border-color);
-            z-index: 1000;
-            padding: 1rem 0;
-        }
-        
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        
-        .avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            border: 2px solid var(--accent-color);
-        }
-        
-        .last-updated {
-            position: absolute;
-            right: 2rem;
-            font-size: 0.875rem;
-            color: #8b949e;
-        }
-        
-        /* Banner */
-        .banner {
-            margin-top: 80px;
-            background: linear-gradient(135deg, #1e3a5f 0%, #1a2332 100%);
-            padding: 3rem 0;
-            text-align: center;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .banner h1 {
-            font-size: 3rem;
-            font-weight: 600;
-            color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        /* Main Content */
-        main {
-            flex: 1;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
             width: 100%;
-        }
-        
-        .columns {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-        
-        .project-pane {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-        
-        .project-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--border-color);
+            height: 50px;
+            background-color: #161b22;
+            color: #c9d1d9;
             display: flex;
             align-items: center;
-            gap: 1rem;
+            justify-content: space-between;
+            padding: 10px;
         }
-        
-        .project-header h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-        
-        .project-header.nt {
-            background: linear-gradient(135deg, rgba(240, 136, 62, 0.1) 0%, transparent 100%);
-            border-bottom-color: rgba(240, 136, 62, 0.3);
-        }
-        
-        .project-header.fluid {
-            background: linear-gradient(135deg, rgba(78, 205, 196, 0.1) 0%, transparent 100%);
-            border-bottom-color: rgba(78, 205, 196, 0.3);
-        }
-        
-        .project-icon {
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            font-weight: bold;
-        }
-        
-        .nt .project-icon {
-            background: var(--nt-color);
-            color: white;
-        }
-        
-        .fluid .project-icon {
-            background: var(--fluid-color);
-            color: white;
-        }
-        
-        .project-content {
-            padding: 1.5rem;
-        }
-        
-        .project-summary {
-            margin-bottom: 2rem;
-            padding: 1rem;
-            background: rgba(88, 166, 255, 0.05);
-            border-left: 3px solid var(--accent-color);
-            border-radius: 4px;
-        }
-        
-        .project-summary h3 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            color: var(--accent-color);
-        }
-        
-        .date-section {
-            margin-bottom: 1.5rem;
-        }
-        
-        .date-header {
-            font-weight: 600;
-            color: var(--accent-color);
-            margin-bottom: 0.5rem;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .change-list {
-            list-style: none;
-            padding-left: 0;
-        }
-        
-        .change-item {
-            padding: 0.5rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-        
-        .change-item:before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0.875rem;
-            width: 6px;
-            height: 6px;
+        .header img {
             border-radius: 50%;
-            background: #8b949e;
+            height: 30px;
         }
-        
-        .change-item.add:before {
-            background: var(--success-color);
+        .container {
+            display: flex;
+            margin-top: 70px;
+            justify-content: space-around;
         }
-        
-        .change-item.remove:before {
-            background: var(--danger-color);
+        .column {
+            width: 45%;
+            overflow-y: scroll;
+            height: 80vh;
         }
-        
-        .change-item.idea:before {
-            background: var(--accent-color);
-        }
-        
-        /* Tech Stack Footer */
-        footer {
-            background: var(--header-bg);
-            border-top: 1px solid var(--border-color);
-            padding: 3rem 0;
-            margin-top: auto;
-        }
-        
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-        
-        .tech-stack {
-            margin-bottom: 2rem;
-        }
-        
-        .tech-stack h3 {
-            font-size: 1.25rem;
-            margin-bottom: 1.5rem;
-            color: var(--accent-color);
-        }
-        
-        .tech-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .tech-item {
-            background: var(--bg-color);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1rem;
-            transition: border-color 0.2s;
-        }
-        
-        .tech-item:hover {
-            border-color: var(--accent-color);
-        }
-        
-        .tech-name {
-            font-weight: 600;
-            color: var(--accent-color);
-            margin-bottom: 0.25rem;
-        }
-        
-        .tech-justification {
-            font-size: 0.875rem;
-            color: #8b949e;
-        }
-        
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border-color);
-            color: #8b949e;
-            font-size: 0.875rem;
-        }
-        
-        /* Responsive */
-        @media (max-width: 968px) {
-            .columns {
-                grid-template-columns: 1fr;
-            }
-            
-            .banner h1 {
-                font-size: 2rem;
-            }
-            
-            .header-content {
-                padding: 0 1rem;
-            }
-            
-            .last-updated {
-                display: none;
-            }
+        .entry {
+            border-bottom: 1px solid #30363d;
+            padding: 10px;
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <img src="https://avatars.githubusercontent.com/u/2623736?s=400&u=e7f8d6597d1d222a1f038ed316af1e439c3a57b4&v=4" 
-                 alt="CaptrainWalrus" class="avatar">
-            <div class="last-updated">Last updated: 2025-07-22 23:04</div>
-        </div>
-    </header>
-    
-    <div class="banner">
+    <div class="header">
+        <img src="https://avatars.githubusercontent.com/u/2623736?s=400&u=e7f8d6597d1d222a1f038ed316af1e439c3a57b4&v=4" alt="avatar">
         <h1>I just want to build</h1>
     </div>
-    
-    <main>
-        <div class="columns">
-            <!-- NT_OrderManager Column -->
-            <div class="project-pane">
-                <div class="project-header nt">
-                    <div class="project-icon">NT</div>
-                    <h2>NT_OrderManager</h2>
-                </div>
-                <div class="project-content">
-                    <div class="project-summary">
-                        <h3>Project Overview</h3>
-                        <p>Sophisticated algorithmic trading system with NinjaTrader 8 integration. Features include adaptive risk management, ML-based signal filtering, and real-time market analysis.</p>
-                    </div>
-                    
-                    
-                    <div class="date-section">
-                        <div class="date-header">2025-07-23</div>
-                        <ul class="change-list">
-                            
-                            <li class="change-item add">Implemented automatic syncing of session logs to Cohere</li>
-                            
-                        </ul>
-                    </div>
-                    
-                    <div class="date-section">
-                        <div class="date-header">2025-07-11</div>
-                        <ul class="change-list">
-                            
-                            <li class="change-item add">Added Randomize() function for diverse entry points in agentic memory training</li>
-                            
-                        </ul>
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <!-- FluidJournal Column -->
-            <div class="project-pane">
-                <div class="project-header fluid">
-                    <div class="project-icon">FJ</div>
-                    <h2>FluidJournal</h2>
-                </div>
-                <div class="project-content">
-                    <div class="project-summary">
-                        <h3>Project Overview</h3>
-                        <p>Revolutionary agentic memory system using graduated feature matching and range-based intelligence. Learns optimal trading parameters from historical patterns.</p>
-                    </div>
-                    
-                    
-                    <div class="date-section">
-                        <div class="date-header">2025-07-23</div>
-                        <ul class="change-list">
-                            
-                            <li class="change-item add">Implemented auto-regen website system with LangChain for intelligent insights</li>
-                            
-                        </ul>
-                    </div>
-                    
-                    <div class="date-section">
-                        <div class="date-header">2025-07-11</div>
-                        <ul class="change-list">
-                            
-                            <li class="change-item add">Implemented transparent split storage system</li>
-                            
-                            <li class="change-item add">Fixed PnL issue by adding outcome data to DeregisterPosition calls</li>
-                            
-                            <li class="change-item add">Fixed PnL data flow issue - all values showing correctly now</li>
-                            
-                            <li class="change-item add">Added recent trade analysis to Risk Agent for smarter decisions</li>
-                            
-                            <li class="change-item add">Fixed recent trade analysis errors to prevent repeated poor decisions</li>
-                            
-                            <li class="change-item add">Fixed bug rejecting trades despite risk adjustments</li>
-                            
-                            <li class="change-item add">Implemented rejecting opposite direction trades based on graduated features</li>
-                            
-                        </ul>
-                    </div>
-                    
-                    <div class="date-section">
-                        <div class="date-header">2025-07-10</div>
-                        <ul class="change-list">
-                            
-                            <li class="change-item add">Analyzed memory structure with CLAUDE.md as master context</li>
-                            
-                            <li class="change-item remove">Cleaned up ME terminal logging for agentic memory operations</li>
-                            
-                            <li class="change-item add">Added randomization to Traditional Strategies for varied entry points</li>
-                            
-                            <li class="change-item add">Implemented randomization for diverse entry points in strategies</li>
-                            
-                        </ul>
-                    </div>
-                    
-                </div>
-            </div>
+    <div class="container">
+        <div class="column">
+            <h2>NT_OrderManager</h2>
+            <!-- Dev entries for NT_OrderManager go here -->
         </div>
-    </main>
-    
-    <footer>
-        <div class="footer-content">
-            <div class="tech-stack">
-                <h3>Tech Stack Choices</h3>
-                <div class="tech-grid">
-                    <div class="tech-item">
-                        <div class="tech-name">LanceDB</div>
-                        <div class="tech-justification">Vector database for ML feature storage with excellent performance and simple API</div>
-                    </div>
-                    <div class="tech-item">
-                        <div class="tech-name">NinjaTrader 8</div>
-                        <div class="tech-justification">Professional trading platform with robust C# API for algorithmic trading</div>
-                    </div>
-                    <div class="tech-item">
-                        <div class="tech-name">Node.js + Express</div>
-                        <div class="tech-justification">Fast microservices architecture for real-time market data processing</div>
-                    </div>
-                    <div class="tech-item">
-                        <div class="tech-name">Gaussian Processes</div>
-                        <div class="tech-justification">Uncertainty quantification for risk management decisions</div>
-                    </div>
-                    <div class="tech-item">
-                        <div class="tech-name">GitHub Actions</div>
-                        <div class="tech-justification">Automated CI/CD for website regeneration on session log updates</div>
-                    </div>
-                    <div class="tech-item">
-                        <div class="tech-name">LangChain + OpenAI</div>
-                        <div class="tech-justification">Intelligent content aggregation from development session logs</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&nbsp;</p>
-            </div>
+        <div class="column">
+            <h2>FluidJournal</h2>
+            <!-- Dev entries for FluidJournal go here -->
         </div>
-    </footer>
+    </div>
 </body>
 </html>
+```
+This is a basic HTML structure for your page. You can add your dev entries inside the respective columns. You may also want to add more CSS to style your entries and differentiate between Plans, Features, Changes, and Fixes.
