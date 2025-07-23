@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Development Journey | Auto-Generated Insights</title>
+    <meta name="description" content="Auto-generated insights from Claude development sessions">
+    
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --accent-color: #007acc;
+            --border-color: #e0e0e0;
+            --card-bg: #f8f9fa;
+            --tag-ninja: #ff6b35;
+            --tag-fluid: #4ecdc4;
+            --tag-cohere: #45b7d1;
+            --tag-vector: #96ceb4;
+            --tag-infra: #feca57;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #e0e0e0;
+            --accent-color: #66b3ff;
+            --border-color: #333333;
+            --card-bg: #2a2a2a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--accent-color), #4a90e2);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .stats-bar {
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+
+        main {
+            padding: 3rem 0;
+        }
+
+        .content-section {
+            margin-bottom: 4rem;
+        }
+
+        .content-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+        }
+
+        .narrative-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .projects-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .project-meta {
+            text-align: right;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .context-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .context-tag {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .context-tag.ninjatrader { background: var(--tag-ninja); }
+        .context-tag.fluidjournal { background: var(--tag-fluid); }
+        .context-tag.cohere { background: var(--tag-cohere); }
+        .context-tag.vectorbt { background: var(--tag-vector); }
+        .context-tag.infrastructure { background: var(--tag-infra); }
+        .context-tag.general { background: #95a5a6; }
+
+        .insight-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .insight-item {
+            padding: 1rem;
+            background: rgba(255,255,255,0.5);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .insight-label {
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .insight-content {
+            color: var(--text-color);
+        }
+
+        .context-summary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 3rem 0;
+        }
+
+        .context-summary h3 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .context-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .context-item {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+        }
+
+        .context-count {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .context-name {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem 0;
+            text-align: center;
+            color: #666;
+            margin-top: 4rem;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 0.5rem;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .project-card {
+                padding: 1.5rem;
+            }
+            
+            .project-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">🌙</button>
+
+    <header>
+        <div class="container">
+            <h1>🚀 Development Journey</h1>
+            <p>Auto-generated insights from Claude development sessions</p>
+        </div>
+    </header>
+
+    <div class="stats-bar">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">{{ total_projects }}</div>
+                    <div class="stat-label">Active Projects</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">{{ total_words | number_format }}</div>
+                    <div class="stat-label">Total Words</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">{{ context_count }}</div>
+                    <div class="stat-label">Project Contexts</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">{{ last_updated }}</div>
+                    <div class="stat-label">Last Updated</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <div class="container">
+            {% if narrative_content %}
+            <section class="content-section">
+                <h2>📖 Development Narrative</h2>
+                <div class="narrative-content">
+                    {{ content | safe }}
+                </div>
+            </section>
+            {% endif %}
+
+            {% if global_contexts %}
+            <div class="context-summary">
+                <h3>🏷️ Project Context Distribution</h3>
+                <div class="context-breakdown">
+                    {% for context, count in global_contexts.items() %}
+                    <div class="context-item">
+                        <div class="context-count">{{ count }}</div>
+                        <div class="context-name">{{ context }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <section class="content-section">
+                <h2>🔨 Active Projects</h2>
+                <div class="projects-grid">
+                    {% for project in projects %}
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3 class="project-title">{{ project.project_name }}</h3>
+                            <div class="project-meta">
+                                <div>{{ project.word_count | number_format }} words</div>
+                                <div>{{ project.last_modified[:10] }}</div>
+                            </div>
+                        </div>
+
+                        {% if project.primary_contexts %}
+                        <div class="context-tags">
+                            {% for context in project.primary_contexts %}
+                            <span class="context-tag {{ context.lower() }}">{{ context }}</span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <div class="insight-grid">
+                            {% if project.insights.breakthrough and project.insights.breakthrough != 'Processing...' %}
+                            <div class="insight-item">
+                                <div class="insight-label">💡 Latest Breakthrough</div>
+                                <div class="insight-content">{{ project.insights.breakthrough }}</div>
+                            </div>
+                            {% endif %}
+
+                            {% if project.insights.problem_solved and project.insights.problem_solved != 'Analysis pending' %}
+                            <div class="insight-item">
+                                <div class="insight-label">🔧 Problem Solved</div>
+                                <div class="insight-content">{{ project.insights.problem_solved }}</div>
+                            </div>
+                            {% endif %}
+
+                            {% if project.insights.learning_pattern and project.insights.learning_pattern != 'Development ongoing' %}
+                            <div class="insight-item">
+                                <div class="insight-label">📈 Learning Pattern</div>
+                                <div class="insight-content">{{ project.insights.learning_pattern }}</div>
+                            </div>
+                            {% endif %}
+
+                            {% if project.insights.momentum %}
+                            <div class="insight-item">
+                                <div class="insight-label">⚡ Current Status</div>
+                                <div class="insight-content">{{ project.insights.momentum }}</div>
+                            </div>
+                            {% endif %}
+
+                            {% if project.insights.project_focus %}
+                            <div class="insight-item">
+                                <div class="insight-label">🎯 Project Focus</div>
+                                <div class="insight-content">{{ project.insights.project_focus }}</div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Generated automatically from Claude session logs using LangChain</p>
+            <p>🏷️ Context tagging • 🧠 AI insights • 🔄 Auto-regeneration</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Update button emoji
+            const button = document.querySelector('.theme-toggle');
+            button.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+        }
+
+        // Initialize theme
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+            
+            document.documentElement.setAttribute('data-theme', theme);
+            
+            const button = document.querySelector('.theme-toggle');
+            button.textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
+
+        // Add number formatting filter simulation
+        document.addEventListener('DOMContentLoaded', function() {
+            initTheme();
+            
+            // Format numbers in stats
+            document.querySelectorAll('.stat-number').forEach(el => {
+                const num = parseInt(el.textContent);
+                if (!isNaN(num) && num > 999) {
+                    el.textContent = num.toLocaleString();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
