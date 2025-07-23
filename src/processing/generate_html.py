@@ -17,7 +17,7 @@ class HTMLGenerator:
         self.content_dir = Path("src/content")
         self.template_dir = Path("src/templates")
         self.static_dir = Path("src/static")
-        self.output_dir = Path("docs")
+        self.output_dir = Path(".")
         
         # Ensure output directory exists
         self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -244,8 +244,7 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"❌ Error generating website: {e}")
         # Create a basic index.html as fallback
-        output_dir = Path("docs")
-        output_dir.mkdir(parents=True, exist_ok=True)
+        output_dir = Path(".")
         
         fallback_html = """<!DOCTYPE html>
 <html><head><title>Development Journey</title></head>
