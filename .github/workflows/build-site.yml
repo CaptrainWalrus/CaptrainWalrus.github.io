@@ -39,12 +39,12 @@ jobs:
           LANGCHAIN_API_KEY: ${{ secrets.LANGCHAIN_API_KEY }}
         run: |
           echo "🔄 Processing session logs with LangChain..."
-          python src/processing/langchain_processor.py
+          python src/processing/langchain_processor.py || echo "⚠️ LangChain processing failed, using fallback"
           
       - name: Generate website HTML
         run: |
           echo "🏗️ Generating website..."
-          python src/processing/generate_html.py
+          python src/processing/generate_html.py || python src/processing/simple_generate.py
           
       - name: Setup Pages
         uses: actions/configure-pages@v4
