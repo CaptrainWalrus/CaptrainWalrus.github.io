@@ -29,13 +29,14 @@ jobs:
         with:
           python-version: '3.11'
           
-      - name: Generate website with OpenAI
+      - name: Process entries and generate website
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          echo "🔄 Letting OpenAI generate the complete website..."
-          echo "🤖 OpenAI handles all organization, categorization, and HTML generation"
-          python src/processing/openai_website_generator.py
+          echo "🔄 Processing session logs with OpenAI..."
+          python src/processing/incremental_processor_http.py
+          echo "🔄 Organizing website with OpenAI..."
+          python src/processing/simple_openai_organizer.py
           
       - name: Setup Pages
         uses: actions/configure-pages@v4
