@@ -44,7 +44,7 @@ jobs:
       - name: Generate website HTML
         run: |
           echo "🏗️ Generating website..."
-          python src/processing/generate_html.py || python src/processing/simple_generate.py
+          python src/processing/generate_html.py || python src/processing/structured_generate.py
           
       - name: Setup Pages
         uses: actions/configure-pages@v4
