@@ -1,0 +1,59 @@
+#!/bin/bash
+#
+# Pre-commit hook to sync session logs to Cohere directory
+# This runs automatically before every git commit
+#
+
+echo "🔄 Syncing session logs to Cohere directory..."
+
+# Define paths
+WORKSPACE_DIR="/mnt/c/workspace"
+COHERE_DIR="/mnt/c/workspace/Cohere"
+SESSION_LOGS_DIR="$COHERE_DIR/session-logs"
+PROJECTS_DIR="$SESSION_LOGS_DIR/projects"
+
+# Create directories if they don't exist
+mkdir -p "$SESSION_LOGS_DIR"
+mkdir -p "$PROJECTS_DIR"
+
+# Function to sync a file
+sync_file() {
+    local source="$1"
+    local dest="$2"
+    local project_name="$3"
+    
+    if [ -f "$source" ]; then
+        # Create destination directory
+        mkdir -p "$(dirname "$dest")"
+        
+        # Copy file
+        cp "$source" "$dest"
+        echo "  ✅ Synced $project_name: $(basename "$source")"
+        
+        # Stage the copied file for commit if we're in Cohere directory
+        if [[ "$PWD" == *"Cohere"* ]]; then
+            git add "$dest" 2>/dev/null || true
+        fi
+    fi
+}
+
+# Sync main workspace claude_memory.md
+sync_file "$WORKSPACE_DIR/claude_memory.md" "$SESSION_LOGS_DIR/claude_memory.md" "Main Workspace"
+
+# Sync project-specific session logs
+sync_file "$WORKSPACE_DIR/FluidJournal/claude_memory.md" "$PROJECTS_DIR/fluidjournal/claude_memory.md" "FluidJournal"
+sync_file "$WORKSPACE_DIR/FluidJournal/agentic_memory/claude_memory.md" "$PROJECTS_DIR/fluidjournal-agentic/claude_memory.md" "FluidJournal Agentic"
+sync_file "$WORKSPACE_DIR/vectorbt-poc/claude_memory.md" "$PROJECTS_DIR/vectorbt/claude_memory.md" "VectorBT"
+sync_file "$WORKSPACE_DIR/order-manager/claude_memory.md" "$PROJECTS_DIR/ninjatrader/claude_memory.md" "NinjaTrader"
+
+# Sync any CLAUDE.md files
+sync_file "$WORKSPACE_DIR/CLAUDE.md" "$SESSION_LOGS_DIR/CLAUDE.md" "Main CLAUDE.md"
+sync_file "$WORKSPACE_DIR/FluidJournal/CLAUDE.md" "$PROJECTS_DIR/fluidjournal/CLAUDE.md" "FluidJournal CLAUDE.md"
+
+# Update sync timestamp
+echo "$(date -Iseconds)" > "$SESSION_LOGS_DIR/.sync_timestamp"
+
+echo "✅ Session log sync complete!"
+
+# Exit successfully to allow commit to proceed
+exit 0
