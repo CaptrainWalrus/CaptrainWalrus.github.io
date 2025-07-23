@@ -12,6 +12,21 @@ from pathlib import Path
 from collections import defaultdict
 from jinja2 import Template
 
+def load_processed_content():
+    """Load content from incremental processor cache"""
+    content_file = Path("src/content/incremental_content.json")
+    
+    if content_file.exists():
+        try:
+            with open(content_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                return data.get('nt_changes', {}), data.get('fluid_changes', {})
+        except:
+            pass
+    
+    # Fallback to manual parsing if no cache
+    return parse_session_logs()
+
 def parse_session_logs():
     """Parse session logs and extract project-specific changes"""
     session_log_path = Path("session-logs/claude_memory.md")
@@ -92,8 +107,8 @@ def generate_website():
         print("❌ Template not found!")
         return
     
-    # Parse session logs
-    nt_changes, fluid_changes = parse_session_logs()
+    # Load processed content (from cache or parse)
+    nt_changes, fluid_changes = load_processed_content()
     
     # Sort by date (most recent first)
     nt_changes = dict(sorted(nt_changes.items(), reverse=True)[:10])  # Last 10 days

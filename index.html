@@ -302,7 +302,7 @@
         <div class="header-content">
             <img src="https://avatars.githubusercontent.com/u/2623736?s=400&u=e7f8d6597d1d222a1f038ed316af1e439c3a57b4&v=4" 
                  alt="CaptrainWalrus" class="avatar">
-            <div class="last-updated">Last updated: 2025-07-22 21:52</div>
+            <div class="last-updated">Last updated: 2025-07-22 21:58</div>
         </div>
     </header>
     
@@ -326,52 +326,10 @@
                     
                     
                     <div class="date-section">
-                        <div class="date-header">2025-07-20</div>
+                        <div class="date-header">2025-07-23</div>
                         <ul class="change-list">
                             
-                            <li class="change-item add">Verified that outlier detection and filtering is fully implemented in strategy_comparison.py. The system includes:</li>
-                            
-                            <li class="change-item idea">1. **IQR-based outlier detection** using 2.5x factor across netProfit, maxDrawdown, and totalTrades</li>
-                            
-                            <li class="change-item idea">2. **UI toggle control** with "Include outliers" checkbox (default: false = outliers excluded)</li>
-                            
-                            <li class="change-item idea">3. **Detailed outlier explanations** showing why each session is considered an outlier</li>
-                            
-                            <li class="change-item idea">4. **Expandable outlier viewer** with reasons for exclusion</li>
-                            
-                            <li class="change-item idea">5. **Automatic filtering** that removes outliers from equity curves and consolidation analysis</li>
-                            
-                            <li class="change-item idea">Implementation is complete and ready for use. The consolidation analysis now focuses on normal trading patterns without extreme outliers skewing visualizations</li>
-                            
-                            <li class="change-item idea">---</li>
-                            
-                            <li class="change-item idea">*REVOLUTIONARY TRANSFORMATION COMPLETE: From deterministic range-based to probabilistic GP-based uncertainty modeling with continuous learning AND position-size-normalized risk calculations*</li>
-                            
-                        </ul>
-                    </div>
-                    
-                    <div class="date-section">
-                        <div class="date-header">2025-07-15</div>
-                        <ul class="change-list">
-                            
-                            <li class="change-item add">User identified missing profitByBar data in Storage Agent. Root cause: NinjaTrader was populating profitByBar in OrderObjectStatsThread but trajectory data wasn't flowing through to unified payloads. </li>
-                            
-                        </ul>
-                    </div>
-                    
-                    <div class="date-section">
-                        <div class="date-header">2025-07-13</div>
-                        <ul class="change-list">
-                            
-                            <li class="change-item idea">Implementing user's range concept: 1) Separate profitable vs unprofitable trades, 2) Calculate optimal ranges (Q25-Q75) and acceptable ranges (P10-P90) for each graduated feature, 3) Confidence scorin</li>
-                            
-                            <li class="change-item add">Successfully implemented revolutionary graduation system: 1) Graduation tables now contain optimal/acceptable ranges for each feature, 2) Signal direction analysis (LOWER_IS_BETTER, HIGHER_IS_BETTER, </li>
-                            
-                            <li class="change-item add">Tested user's problematic query (atr_percentage: 0.2) against new system - CORRECTLY identified as POOR (10% confidence) because it's 6-10x higher than optimal range (0.019-0.034). System now understa</li>
-                            
-                            <li class="change-item add">User requested 30-minute graduation updates based on bar time, not server time. Implemented: 1) Track lastGraduationBarTime from actual trade timestamps, 2) Check time difference every vector update, </li>
-                            
-                            <li class="change-item idea">Comprehensive testing confirms revolutionary breakthrough: 1) Range-based confidence correctly identifies poor conditions (atr_percentage 0.2 = POOR), 2) Bar time updates work precisely (25 min = no u</li>
+                            <li class="change-item add">Implemented automatic session log syncing using Git pre-commit hooks</li>
                             
                         </ul>
                     </div>
@@ -380,208 +338,7 @@
                         <div class="date-header">2025-07-11</div>
                         <ul class="change-list">
                             
-                            <li class="change-item idea">User requested git commit in order-manager directory. This includes the TraditionalStrategies.cs randomization changes (adding Randomize() function with 15-20% variation on thresholds) that were made </li>
-                            
-                            <li class="change-item add">Completed updating ME service to accept entryType directly from NinjaTrader instead of parsing from patternUuid. Changes: 1) Updated positionTrackingRoutes.js to extract entryType from req.body, 2) Mo</li>
-                            
-                            <li class="change-item add">Found that vectors ARE being stored at correct time (deregistration) with proper architecture. Issue likely upstream in NinjaTrader→ME data pipeline. Added debug logging to positionTrackingRoutes.js l</li>
-                            
-                            <li class="change-item add">Investigating critical bug where all PnL values show as $0.00 despite actual losses. Added extensive PNL-DEBUG logging to track data flow: 1) exitOutcome contents, 2) completeTrainingRecord.outcomeDat</li>
-                            
-                            <li class="change-item add">Root cause: exitOutcome from NT not populated with PnL data. Solution: Added fallback PnL calculation in deregisterPosition() that calculates PnL from position.entryPrice and current market price (fro</li>
-                            
-                            <li class="change-item idea">Discovered NT IS sending PnL data with capitalized field names (PnLDollars, PnLPoints). Routes correctly map these to lowercase (pnlDollars, pnlPoints) in positionTrackingRoutes.js lines 531-532. Fixe</li>
-                            
-                            <li class="change-item idea">Root cause identified! NinjaTrader HAS the PnL data but most DeregisterPosition calls are NOT passing the outcomeData parameter. Only one place (line 863 in OrderManagement.cs) passes outcomeData prop</li>
-                            
-                            <li class="change-item idea">Fixed the three main DeregisterPosition calls in OrderManagement.cs to include outcomeData parameter:</li>
-                            
-                            <li class="change-item add">1. Win case (line 938): Added winOutcomeData with profit, pnlPoints, exitPrice, etc</li>
-                            
-                            <li class="change-item add">2. Break-even case (line 1069): Added breakEvenOutcomeData with same fields</li>
-                            
-                            <li class="change-item add">3. Loss case (line 1173): Added lossOutcomeData with all trade outcome details</li>
-                            
-                            <li class="change-item idea">All three now properly send PnL data to ME service for storage in Agentic Memory. This should resolve the $0.00 PnL issue completely</li>
-                            
-                            <li class="change-item idea">User confirmed success - PnL values are now showing correctly in the system! The fix worked perfectly. NinjaTrader is now properly sending all outcome data (including PnL) through the complete pipelin</li>
-                            
-                            <li class="change-item add">User identified relay issues between NT→ME→Storage and wants to move feature generation to NinjaTrader for better reliability. Created comprehensive plan following their HOW TO PLAN GUIDE format. Key </li>
-                            
-                            <li class="change-item idea">User reported features not being generated sometimes. Root cause: We moved to NT->Storage direct flow, bypassing ME entirely. Completed the following changes:</li>
-                            
-                            <li class="change-item idea">1. ME feature generation already commented out in positionTrackingService.js (lines 578-613)</li>
-                            
-                            <li class="change-item idea">2. ME->Storage relay code already commented out in positionTrackingService.js (lines 985-1016)</li>
-                            
-                            <li class="change-item idea">3. Disabled RF integration in MI service by setting ENABLE_RF_INTEGRATION = false in ingestRoutes.js</li>
-                            
-                            <li class="change-item idea">4. This eliminates the RF-SERVICE connection refused errors in MI logs</li>
-                            
-                            <li class="change-item idea">The system now flows directly: NT generates features → NT sends unified records to Storage Agent, eliminating the unreliable ME relay</li>
-                            
-                            <li class="change-item add">User requested Risk Agent analyze recent trades to avoid repeating poor decisions (e.g., 2 consecutive losses = maybe signal is wrong). Implemented comprehensive recent trade analysis:</li>
-                            
-                            <li class="change-item add">1. Added analyzeRecentTrades() function that looks at last 24 hours of trades</li>
-                            
-                            <li class="change-item idea">2. Detects consecutive losses (rejects signal after 3+ consecutive losses)</li>
-                            
-                            <li class="change-item idea">3. Identifies trend-following errors (multiple losses in same direction = fighting the trend)</li>
-                            
-                            <li class="change-item idea">4. Calculates recent win rate and applies confidence penalties accordingly</li>
-                            
-                            <li class="change-item idea">5. Integration points:</li>
-                            
-                            <li class="change-item idea">- Early rejection in calculateAgenticRisk for severe recent losses</li>
-                            
-                            <li class="change-item idea">- Confidence penalty application in main approval flow</li>
-                            
-                            <li class="change-item idea">- Response includes recent trade metrics for transparency</li>
-                            
-                            <li class="change-item idea">Key thresholds: 3+ consecutive losses = reject, 2 losses with trend error = high caution, <30% win rate = caution</li>
-                            
-                            <li class="change-item idea">User reported "currentTimestamp is not defined" and wrong timestamps being stored. Fixed multiple integration issues:</li>
-                            
-                            <li class="change-item idea">1. NinjaTrader was trying port 3018 but Risk Service runs on 3017 - fixed SignalFeatures.cs</li>
-                            
-                            <li class="change-item add">2. Added missing fields to risk request: direction and timestamp from Time[0] (bar time, not server time)</li>
-                            
-                            <li class="change-item add">3. Created new /api/evaluate-risk endpoint that NT expects - properly handles features directly from NT</li>
-                            
-                            <li class="change-item remove">4. Removed all currentTimestamp references - consistently use timestamp throughout</li>
-                            
-                            <li class="change-item idea">5. Storage Agent now properly uses payload timestamps (both lowercase and uppercase) instead of server time</li>
-                            
-                            <li class="change-item idea">This ensures temporal accuracy for backtesting and pattern matching</li>
-                            
-                            <li class="change-item add">User suggested changing approach when rejecting for consecutive losses - use max profit data to adapt strategy. Implemented:</li>
-                            
-                            <li class="change-item idea">1. Track avgMaxProfit for all trades and specifically for consecutive losses</li>
-                            
-                            <li class="change-item idea">2. If 3+ consecutive losses but avgMaxProfit > $20: Tighten take profit to capture available profit</li>
-                            
-                            <li class="change-item idea">3. If avgMaxProfit < $15 and trying to short: Block shorts for 15 minutes OR until next successful long</li>
-                            
-                            <li class="change-item idea">4. Track lastSuccessfulLongTime to determine when market conditions might have improved</li>
-                            
-                            <li class="change-item idea">5. Return riskAdjustment object with type, suggested values, and reasoning</li>
-                            
-                            <li class="change-item idea">This creates adaptive behavior: learn from max profit patterns instead of blindly rejecting trades</li>
-                            
-                            <li class="change-item idea">User refined approach: don't reject trades unless there's consecutive losses with NO profit. Updated strategy:</li>
-                            
-                            <li class="change-item idea">1. If avgMaxProfit > $20: Tighten BOTH SL and TP (70% of avg loss for SL, avg profit for TP)</li>
-                            
-                            <li class="change-item idea">- Only 10% confidence penalty - we're adapting, not rejecting</li>
-                            
-                            <li class="change-item idea">2. If avgMaxProfit < $10: Reject - truly no profit potential</li>
-                            
-                            <li class="change-item idea">3. If avgMaxProfit 10-20: High caution with tighter risk (50% of avg loss for SL)</li>
-                            
-                            <li class="change-item idea">- 30% confidence penalty but still allows trades</li>
-                            
-                            <li class="change-item idea">Key insight: Only reject when there's truly no profit potential. Otherwise, adapt risk parameters to capture what's available</li>
-                            
-                            <li class="change-item idea">User suggested different approach: approve all signals but adjust SL/TP based on features AND recent trades. Major changes:</li>
-                            
-                            <li class="change-item idea">1. Set approved=true for all responses - never reject signals</li>
-                            
-                            <li class="change-item idea">2. Minimum confidence of 60% to ensure all trades proceed</li>
-                            
-                            <li class="change-item idea">3. Even with minimal profit potential (<$10), use ultra-tight risk (1 point TP, 30% of loss for SL)</li>
-                            
-                            <li class="change-item idea">4. Simplified recent trade analysis - only provides risk adjustments, never rejections</li>
-                            
-                            <li class="change-item idea">5. Risk parameters now consider BOTH feature values and recent performance collectively</li>
-                            
-                            <li class="change-item idea">This creates pure adaptive system: all trades proceed but with intelligently adjusted risk based on conditions</li>
-                            
-                            <li class="change-item idea">User reported SL and TP values showing as 0 in NT. Root cause: JSON property name mismatch. Fixed:</li>
-                            
-                            <li class="change-item idea">1. C# SignalApprovalResponse expects snake_case: suggested_sl, suggested_tp (based on JsonProperty attributes)</li>
-                            
-                            <li class="change-item idea">2. Risk Agent was sending PascalCase: SuggestedSl, SuggestedTp</li>
-                            
-                            <li class="change-item idea">3. Changed to snake_case in /api/evaluate-risk endpoint responses</li>
-                            
-                            <li class="change-item add">4. Also added reasons array as expected by C# class</li>
-                            
-                            <li class="change-item idea">Now SL/TP values properly deserialize and flow through to NT strategy</li>
-                            
-                            <li class="change-item idea">User still getting 666/999 default values. Found CurvesV2Service uses /api/approve-signal not /api/evaluate-risk. Fixed:</li>
-                            
-                            <li class="change-item idea">1. Updated /api/approve-signal to also use snake_case: suggested_sl, suggested_tp</li>
-                            
-                            <li class="change-item add">2. Added comprehensive logging to show exact JSON being sent</li>
-                            
-                            <li class="change-item idea">3. Both endpoints now send consistent format matching C# JsonProperty attributes</li>
-                            
-                            <li class="change-item idea">Issue was CurvesStrategy uses different endpoint than MainStrategy feature approach</li>
-                            
-                            <li class="change-item add">User requested adding back rejections when graduated features indicate opposite direction should be taken. Implemented comprehensive solution:</li>
-                            
-                            <li class="change-item add">1. Added opposite direction detection in calculateAgenticRisk() - checks for patterns that succeeded in opposite direction</li>
-                            
-                            <li class="change-item idea">2. Rejects with confidence 0.1 when 3+ opposite direction patterns exist AND outnumber same direction patterns</li>
-                            
-                            <li class="change-item idea">3. Both /api/evaluate-risk and /api/approve-signal endpoints respect confidence >= 0.5 threshold for approval</li>
-                            
-                            <li class="change-item idea">4. Provides detailed reasoning: "REJECTED - Features strongly indicate {oppositeDirection} direction"</li>
-                            
-                            <li class="change-item idea">5. Uses graduated feature matching to identify truly similar patterns across directions</li>
-                            
-                            <li class="change-item idea">Key thresholds: 3+ opposite success patterns, opposite must outnumber same direction, profit > $10 for success</li>
-                            
-                            <li class="change-item add">User requested more descriptive plain-text reasons for rejections. Implemented comprehensive reasoning for all rejection types:</li>
-                            
-                            <li class="change-item idea">1. **Losing Patterns**: "Market conditions unfavorable... Found X patterns that lost avg $Y... Consider waiting for clearer conditions"</li>
-                            
-                            <li class="change-item idea">2. **Opposite Direction**: "Market structure suggests LONG/SHORT trades more favorable... Historical data shows X successful trades averaging $Y"</li>
-                            
-                            <li class="change-item idea">3. **Winning Patterns**: "Favorable setup detected... Found X winning patterns averaging $Y profit... Success rate Z%"</li>
-                            
-                            <li class="change-item idea">4. **Rule-Based**: "Limited historical data... Using technical analysis... [specific indicators mentioned]"</li>
-                            
-                            <li class="change-item add">Each message now provides actionable guidance rather than just technical details. Added market context and specific recommendations</li>
-                            
-                            <li class="change-item idea">User reported system too restrictive, preventing trades needed for learning. Major philosophy shift to learning-first approach:</li>
-                            
-                            <li class="change-item idea">1. **Losing Patterns**: Only reject if avg loss >$75 AND 4+ patterns AND 2+ stop losses hit (was: reject with 2+ losses)</li>
-                            
-                            <li class="change-item idea">2. **Opposite Direction**: Only reject with 5+ opposite patterns AND 2:1 ratio (was: 3+ patterns 1:1 ratio)</li>
-                            
-                            <li class="change-item idea">3. **Moderate Cases**: Now proceed with adjusted risk instead of rejecting (confidence 0.52-0.55)</li>
-                            
-                            <li class="change-item idea">4. **Rule-Based**: Increased base confidence from 0.55-0.65 to 0.65-0.75 for more approvals</li>
-                            
-                            <li class="change-item idea">5. **Config**: Lowered similarity threshold 0.15→0.10, min patterns 3→2 for more matches</li>
-                            
-                            <li class="change-item idea">Key principle: "More trades = smarter decisions" - only reject overwhelming evidence of large losses</li>
-                            
-                        </ul>
-                    </div>
-                    
-                    <div class="date-section">
-                        <div class="date-header">2025-07-10</div>
-                        <ul class="change-list">
-                            
-                            <li class="change-item idea">Analyzed current workspace memory structure. Found well-organized hierarchy with CLAUDE.md as master context (334 lines) covering trading system architecture, 6 microservices, and Agentic Memory imple</li>
-                            
-                            <li class="change-item idea">Establishing pattern for this file:</li>
-                            
-                            <li class="change-item idea">- Timestamp every entry</li>
-                            
-                            <li class="change-item idea">- Keep entries concise (1-3 lines)</li>
-                            
-                            <li class="change-item idea">- Focus on thoughts/changes, not code</li>
-                            
-                            <li class="change-item idea">- Maintain chronological order</li>
-                            
-                            <li class="change-item idea">- No prompts required for updates</li>
-                            
-                            <li class="change-item idea">User wants always-on monitoring agent for ME→Storage→Risk communication chain. Current issue: errors occur but aren't caught by error codes. Need live QA that tracks all inputs/outputs between servers</li>
-                            
-                            <li class="change-item idea">Key insight: Traditional error handling misses silent failures (wrong data format, missing fields, logical errors). Need intelligent monitoring that understands expected data patterns and can detect a</li>
+                            <li class="change-item idea">User requested git commit in order-manager directory</li>
                             
                         </ul>
                     </div>
@@ -606,90 +363,7 @@
                         <div class="date-header">2025-07-23</div>
                         <ul class="change-list">
                             
-                            <li class="change-item add">Finished implementing complete LangChain-based auto-regen website system. Created GitHub Actions workflow that monitors session log commits, processes content with LangChain for intelligent insights, </li>
-                            
-                        </ul>
-                    </div>
-                    
-                    <div class="date-section">
-                        <div class="date-header">2025-07-17</div>
-                        <ul class="change-list">
-                            
-                            <li class="change-item idea">User identified that position size (quantity of contracts) wasn't being considered in risk calculations. All stored records were based on 1 contract but risk calculations used raw PnL values. This cau</li>
-                            
-                            <li class="change-item add">Implemented complete normalization across all services:</li>
-                            
-                            <li class="change-item idea">1. **VectorStore**: Already stores pnlPerContract = pnl / quantity, pnlPointsPerContract fields</li>
-                            
-                            <li class="change-item idea">2. **MemoryManager**: Updated graduation calculations to use (v.pnlPerContract || v.pnl) pattern</li>
-                            
-                            <li class="change-item idea">3. **Risk Service**: Updated all pattern filtering, loss calculations, profit analysis to use normalized values</li>
-                            
-                            <li class="change-item idea">4. **Pattern Matching**: Now compares trades fairly regardless of position size (1 contract vs 10 contracts)</li>
-                            
-                            <li class="change-item idea">5. **Backward Compatibility**: Fallback pattern ensures old data without pnlPerContract still works</li>
-                            
-                            <li class="change-item idea">Key insight: A $100 profit on 10 contracts ($10/contract) is very different from $100 profit on 1 contract. Normalization ensures fair comparison and accurate risk assessment</li>
-                            
-                            <li class="change-item add">Updated CLAUDE.md with critical implementation details section documenting the position size normalization patterns. Added code examples showing correct PnL access patterns. This is a critical fix tha</li>
-                            
-                        </ul>
-                    </div>
-                    
-                    <div class="date-section">
-                        <div class="date-header">2025-07-13</div>
-                        <ul class="change-list">
-                            
-                            <li class="change-item idea">User suggested range-based approach instead of similarity matching - brilliant insight! Instead of finding "similar" patterns, identify optimal ranges for profitable trades. Core concept: atr_percenta</li>
-                            
-                            <li class="change-item add">User encountered storage corruption error when trying to wipe data. Successfully resolved using reset-lancedb.js script that safely removed corrupted database and initialized fresh LanceDB environment</li>
-                            
-                            <li class="change-item add">Successfully updated storage system to capture bar-by-bar profit trajectories: 1) Added profitByBar fields to LanceDB schema (Float32Array + JSON), 2) Updated VectorStore to parse Dictionary<int,doubl</li>
-                            
-                            <li class="change-item add">User requested full conversion from range-based to Gaussian Process approach. Created comprehensive 10-step plan: 1) GP architecture design, 2) Python service setup, 3) Historical data export, 4) Sing</li>
-                            
-                            <li class="change-item idea">MAJOR MILESTONE: Successfully completed all 10 steps of Gaussian Process migration in single session:</li>
-                            
-                            <li class="change-item idea">✅ 1. GP Architecture Design (Python Flask + Node.js bridge + multi-output GPs)</li>
-                            
-                            <li class="change-item idea">✅ 2. Python GP Service Setup (scikit-learn with RBF kernels + uncertainty quantification)</li>
-                            
-                            <li class="change-item idea">✅ 3. Historical Data Export (LanceDB to JSON with trajectory parsing)</li>
-                            
-                            <li class="change-item idea">✅ 4. Single-Output GP (PnL prediction with uncertainty)</li>
-                            
-                            <li class="change-item idea">✅ 5. Multi-Output GP (50-bar trajectory + risk parameter prediction)</li>
-                            
-                            <li class="change-item idea">✅ 6. Risk Agent Integration (seamless GP vs Range selection)</li>
-                            
-                            <li class="change-item idea">✅ 7. Uncertainty-Based Confidence (5-factor confidence engine with calibration)</li>
-                            
-                            <li class="change-item idea">✅ 8. A/B Testing Framework (statistical significance testing GP vs Range)</li>
-                            
-                            <li class="change-item idea">✅ 9. Range Logic Replacement (intelligent fallback with variant assignment)</li>
-                            
-                            <li class="change-item idea">✅ 10. Online Learning (continuous model updates + confidence calibration)</li>
-                            
-                            <li class="change-item idea">System now provides: probabilistic uncertainty modeling, trajectory forecasting, adaptive confidence scoring, A/B performance comparison, and continuous learning from trade outcomes</li>
-                            
-                        </ul>
-                    </div>
-                    
-                    <div class="date-section">
-                        <div class="date-header">2025-07-12</div>
-                        <ul class="change-list">
-                            
-                            <li class="change-item remove">Successfully cleaned up MI service to remove legacy RF integration and 14D vector generation as requested. Changes: 1) Removed RF buffer functionality (addToRFBuffer, getRFBuffer functions), 2) Remove</li>
-                            
-                            <li class="change-item add">User pointed out MI was still doing excessive processing (EMA calculations, pattern discovery, vector generation). Made radical simplification: 1) Removed ALL EMA calculation functions (calculateEMA, </li>
-                            
-                            <li class="change-item add">User identified two issues: 1) Recent trades correctly uses bar timestamp from NT (not server time), 2) Graduated features showing 0 suggests initialization problem, 3) Heat map should focus on CRITIC</li>
-                            
-                            <li class="change-item add">User requested maintained state instead of on-request graduation. Implemented sophisticated graduation management: 1) Created GraduationManager class that maintains separate FeatureGraduation instance</li>
-                            
-                            <li class="change-item idea">3. /api/store-outcome: Changed from Date.now() to `req.body.timestamp || Date.now()`</li>
-                            
-                            <li class="change-item idea">Now all endpoints respect payload timestamps for accurate temporal data, falling back to server time only when not provided</li>
+                            <li class="change-item add">Finished implementing complete LangChain-based auto-regen website system</li>
                             
                         </ul>
                     </div>
@@ -698,73 +372,19 @@
                         <div class="date-header">2025-07-11</div>
                         <ul class="change-list">
                             
-                            <li class="change-item idea">Fixed aggregation error in storage-agent/src/vectorStore.js. LanceDB doesn't have toArray() method - must use filter().execute() instead. Also corrected field mappings: use 'instrument' not 'symbol', </li>
+                            <li class="change-item add">Implemented complete transparent split storage system: 1) Added /api/store-features and /api/store-o</li>
                             
-                            <li class="change-item idea">User reported gigantic columns with vertical stretch. Fixed by: setting max-width on containers, using fixed 2-column grid, reducing chart heights to 250px, adding white-space:nowrap to tables. Made d</li>
+                            <li class="change-item add">Fixed the three main DeregisterPosition calls in OrderManagement</li>
                             
-                            <li class="change-item add">User asked about analyzing LanceDB data in Orange. Created CSV export functionality: added /api/export/csv endpoint to server, export button to dashboards, and updated simple-viewer.html. CSV includes</li>
+                            <li class="change-item idea">User confirmed success - PnL values are now showing correctly in the system! The fix worked perfectl</li>
                             
-                            <li class="change-item add">User reported entry types showing as "MGC_unknown_unknown". Root cause: extractIBICondition() returns concatenated string (instrument_entryType_direction) which was being stored as-is. Solution: Added</li>
+                            <li class="change-item add">User requested Risk Agent analyze recent trades to avoid repeating poor decisions (e</li>
                             
-                            <li class="change-item idea">Discovered all 4,620 vectors in database marked as "long" with zero short trades. Root cause: ME service only checked for "bear"/"short" keywords but NT sends "OFI_SELL_" patterns. Fixed by adding "se</li>
+                            <li class="change-item add">User reported error: "storageClient</li>
                             
-                            <li class="change-item idea">User asked if Risk Agent makes instrument-specific recommendations. Found it queries patterns across ALL instruments, not filtering by instrument. It relies on graduated feature similarity to naturall</li>
+                            <li class="change-item add">User reported trades still being rejected despite risk adjustments</li>
                             
-                            <li class="change-item add">User found stored record "49359_Entry" marked as "long" but was actually "EnterShort" trade. Fixed multiple issues: 1) Added instrument filter to Risk Agent similarity search for instrument-specific r</li>
-                            
-                            <li class="change-item idea">User suggests split storage approach: 1) Store features at registration time (when features are fresh and complete), 2) Store outcomes at deregistration time (when PnL data is available), 3) Union the</li>
-                            
-                            <li class="change-item add">Implemented complete transparent split storage system: 1) Added /api/store-features and /api/store-outcome endpoints to Storage Agent, 2) Added transparent union logic in /api/query-similar that autom</li>
-                            
-                            <li class="change-item add">Fixed critical issue where OUTCOME records failed storage due to missing features validation. Updated VectorStore.storeVector() to handle different recordType values: FEATURES (requires features), OUT</li>
-                            
-                            <li class="change-item idea">Fixed LanceDB Arrow conversion error: "Cannot read properties of undefined (reading 'length')" on featureNames field. Root cause: featureNames was undefined for OUTCOME records. Solution: Initialize a</li>
-                            
-                            <li class="change-item idea">Fixed another schema-related error: "Cannot convert undefined or null to object" at Object.keys(features). Root cause: Return statement was calling Object.keys(features) for OUTCOME records where feat</li>
-                            
-                            <li class="change-item add">Session restored from context file. Previous work: Implemented split storage architecture (features at registration, outcomes at deregistration), fixed schema validation errors, added PnL fallback cal</li>
-                            
-                            <li class="change-item idea">User reported simple-viewer.html only showing outcome columns, not feature columns. Root cause: Split storage creates separate FEATURES and OUTCOME records. The /api/vectors endpoint was returning raw</li>
-                            
-                            <li class="change-item idea">User asked about timestamp source in Storage Agent - discovered inconsistent handling. Fixed all endpoints to use payload timestamp when provided:</li>
-                            
-                            <li class="change-item idea">1. /api/store-vector: Changed from Date.now() to `timestamp || Date.now()`</li>
-                            
-                            <li class="change-item idea">2. /api/store-features: Already had correct handling `timestamp || Date.now()`</li>
-                            
-                            <li class="change-item idea">User reported error: "storageClient.getVectors is not a function". Fixed multiple issues:</li>
-                            
-                            <li class="change-item add">1. Added missing getVectors() method to AgenticMemoryClient - queries /api/vectors endpoint with filters</li>
-                            
-                            <li class="change-item idea">2. Fixed variable name mismatch in Risk Agent: changed `timestamp` to `currentTimestamp` in analyzeRecentTrades call</li>
-                            
-                            <li class="change-item idea">The recent trade analysis now works correctly to detect consecutive losses and prevent repeated poor decisions</li>
-                            
-                            <li class="change-item idea">User reported trades still being rejected despite risk adjustments. Found and fixed early rejection in calculateAgenticRisk():</li>
-                            
-                            <li class="change-item remove">1. Removed early rejection for 3+ consecutive losses - was returning 0.1 confidence before risk adjustments</li>
-                            
-                            <li class="change-item idea">2. Changed adjust_risk to apply NO confidence penalty (was 0.9x multiplier)</li>
-                            
-                            <li class="change-item add">3. Added base penalty only for extreme cases (5+ consecutive losses)</li>
-                            
-                            <li class="change-item idea">Now system properly adapts risk parameters without rejecting trades that have profit potential</li>
-                            
-                            <li class="change-item idea">User wanted to use Risk Agent for trade analysis instead of separate system. Enhanced Risk Agent to perform deep analysis using existing data:</li>
-                            
-                            <li class="change-item idea">1. **Real-time Analysis**: Risk Agent now analyzes failure/success patterns during decision making</li>
-                            
-                            <li class="change-item idea">2. **Failure Pattern Analysis**: Identifies common exit reasons, profit potential wasted, risk parameter issues</li>
-                            
-                            <li class="change-item idea">3. **Success Pattern Analysis**: Understands what made winning trades successful, optimal risk params</li>
-                            
-                            <li class="change-item add">4. **New API Endpoint**: `/api/analyze-trades/:instrument?days=7` for historical trade analysis</li>
-                            
-                            <li class="change-item idea">5. **Enhanced Reasoning**: Risk decisions now include specific insights from similar trade failures/successes</li>
-                            
-                            <li class="change-item idea">6. **Comprehensive Metrics**: Win rate, profit factor, avg win/loss, exit reason analysis, risk optimization</li>
-                            
-                            <li class="change-item idea">Key insight: Risk Agent becomes the central intelligence hub that learns from every trade and provides actionable insights in real-time</li>
+                            <li class="change-item add">User requested adding back rejections when graduated features indicate opposite direction should be </li>
                             
                         </ul>
                     </div>
@@ -773,37 +393,13 @@
                         <div class="date-header">2025-07-10</div>
                         <ul class="change-list">
                             
-                            <li class="change-item add">Created claude_memory.md to track incremental thoughts and changes. This will be a living document that captures the evolution of ideas and decisions without requiring explicit prompts</li>
+                            <li class="change-item idea">Analyzed current workspace memory structure</li>
                             
-                            <li class="change-item idea">User clarified: This is about **change impact protection** - ensuring one change doesn't break downstream components. The monitoring agent should understand the linear expectations when NT requests an</li>
+                            <li class="change-item remove">User needs ME terminal logging cleaned up - too much noise</li>
                             
-                            <li class="change-item idea">Key insight: NT→ME→Storage→Risk has very predictable expectations. Monitor should validate each step maintains expected contracts and alert when changes break the chain, even if individual services do</li>
+                            <li class="change-item add">User wants to add randomization to int/double qualifiers in TraditionalStrategies</li>
                             
-                            <li class="change-item idea">User wants explanation of interface contracts. This is about the **implicit agreements** between services - what each service promises to provide and what it expects to receive. These contracts define</li>
-                            
-                            <li class="change-item idea">User asking if this is an API/microservice or something else. Need to clarify the implementation approach - this is more like a **middleware/proxy layer** that sits between services rather than a trad</li>
-                            
-                            <li class="change-item idea">Brilliant insight from user: Use **signed payload instructions** with expected schema. Each service receives/sends data with contract specification embedded. Service validates payload against expected</li>
-                            
-                            <li class="change-item idea">Schema: Each request includes expected output contract. Receiving service validates its response against that contract before sending. If mismatch, immediate error. This creates **self-enforcing inter</li>
-                            
-                            <li class="change-item idea">User wants to build the system and asks about notification/dead letter handling. Good point: if ME doesn't store/forward a request, downstream services won't know. Need both contract validation AND re</li>
-                            
-                            <li class="change-item idea">Contract validation + Request tracking: Each service validates its output AND notifies next service of incoming request. This catches both contract violations and dead letter scenarios where requests </li>
-                            
-                            <li class="change-item idea">User requested pause to show current data flow. Good checkpoint - need to clarify existing architecture before adding contract system on top</li>
-                            
-                            <li class="change-item idea">User asks if contract system is waste of time. Need to evaluate ROI - current system has intermittent failures that are hard to debug. Contract system would provide immediate failure detection but add</li>
-                            
-                            <li class="change-item remove">User needs ME terminal logging cleaned up - too much noise. Only show relevant logs for agentic memory services. Current logs show pattern matching, vector caching, bar caching, circuit breaker - need</li>
-                            
-                            <li class="change-item idea">User wants to add randomization to int/double qualifiers in TraditionalStrategies.cs to get more varied entry points. This will help agentic memory learn from more diverse patterns rather than fixed t</li>
-                            
-                            <li class="change-item add">Added Randomize() function to TraditionalStrategies.cs that applies +/- variation to thresholds. Applied randomization to all key numerical thresholds in strategies: wick ratios (15-20% variation), vo</li>
-                            
-                            <li class="change-item idea">User asks about database explorer for LanceDB visualization. They expect dataset to grow and want to visualize contents. Need to research LanceDB visualization tools and explorers</li>
-                            
-                            <li class="change-item idea">User doesn't want to view individual records, wants aggregated stats by instrument and entry type. Also getting query.limit error in LanceDB - need to fix query syntax and pivot to aggregation-focused</li>
+                            <li class="change-item add">Added Randomize() function to TraditionalStrategies</li>
                             
                         </ul>
                     </div>

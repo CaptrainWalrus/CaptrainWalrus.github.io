@@ -33,13 +33,12 @@ jobs:
         run: |
           pip install -r src/processing/requirements.txt
           
-      - name: Process session logs with LangChain
+      - name: Process new session log entries
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          LANGCHAIN_API_KEY: ${{ secrets.LANGCHAIN_API_KEY }}
         run: |
-          echo "🔄 Processing session logs with LangChain..."
-          python src/processing/langchain_processor.py || echo "⚠️ LangChain processing failed, using fallback"
+          echo "🔄 Processing new session log entries..."
+          python src/processing/incremental_processor.py || echo "⚠️ OpenAI processing failed, using basic extraction"
           
       - name: Generate website HTML
         run: |
